@@ -15,9 +15,9 @@ namespace AndreyApi.Controllers
         }
 
         [HttpGet()]
-        public IEnumerable<GenreUi> Get()
+        public ActionResult<object> Get()
         {
-            return dbContext.Genres.Select(u=>(GenreUi)u).ToList();
+            return new { Data = dbContext.Genres.Select(u => (GenreUi)u).ToList() };
         }
 
         [HttpGet("{Id:int}")]

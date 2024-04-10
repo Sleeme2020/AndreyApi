@@ -15,9 +15,9 @@ namespace AndreyApi.Controllers
         }
 
         [HttpGet()]
-        public IEnumerable<AutorUi> Get()
+        public ActionResult<object> Get()
         {
-            return dbContext.Autors.Select(u=>(AutorUi)u).ToList();
+            return  new { Data= dbContext.Autors.Select(u => (AutorUi)u).ToList() };
         }
 
         [HttpGet("{Id:int}")]

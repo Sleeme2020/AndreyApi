@@ -15,9 +15,9 @@ namespace AndreyApi.Controllers
         }
 
         [HttpGet()]
-        public IEnumerable<BookUi> Get()
+        public ActionResult<object> Get()
         {
-            return dbContext.Books.Select(s=>(BookUi)s).ToList();
+            return new { Data = dbContext.Books.Select(s => (BookUi)s).ToList() };
         }
 
         [HttpGet("{Id:int}")]
