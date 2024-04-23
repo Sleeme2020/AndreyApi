@@ -9,14 +9,16 @@ namespace AndreyApi.Models
         public string Description { get; set; }
         public int AuthorId { get; set; }        
         public int GenreId { get; set; }
+        public AutorUi AutorUi { get; set; }
+        public GenreUi GenreUi { get; set; }
         public static implicit operator Book(BookUi bookUi)
         {
-            return new Book() { Id = bookUi.Id, Title = bookUi.Title, GenreId = bookUi.GenreId, AuthorId = bookUi.AuthorId, Description = bookUi.Description };
+            return new Book() { Id = bookUi.Id, Title = bookUi.Title, GenreId = bookUi.GenreId, AuthorId = bookUi.AuthorId, Description = bookUi.Description, Author = bookUi.AutorUi, Genre =bookUi.GenreUi };
         }
 
         public static implicit operator BookUi(Book bookUi)
         {
-            return new BookUi() { Id = bookUi.Id, Title = bookUi.Title, GenreId = bookUi.GenreId, AuthorId = bookUi.AuthorId, Description = bookUi.Description };
+            return new BookUi() { Id = bookUi.Id, Title = bookUi.Title, GenreId = bookUi.GenreId, AuthorId = bookUi.AuthorId, Description = bookUi.Description, AutorUi = bookUi.Author, GenreUi = bookUi.Genre };
         }
     }
 
