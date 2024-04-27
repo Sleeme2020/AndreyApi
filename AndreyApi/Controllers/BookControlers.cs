@@ -1,9 +1,10 @@
 ﻿using AndreyApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AndreyApi.Controllers
 {
-   
+
     [ApiController]
     [Route("[controller]")]
     public class BookController : ControllerBase
@@ -17,13 +18,13 @@ namespace AndreyApi.Controllers
         [HttpGet()]
         public ActionResult<object> Get()
         {
-            return new { Data = dbContext.Books.Select(s => (BookUi)s).ToList() };
+            return new { Data = dbContext.Books.Include(u => u.Author).Include(u => u.Genre).Select(s => (BookUi)s).ToList() };
         }
 
         [HttpGet("{Id:int}")]
         public ActionResult<BookUi> Get(int Id)
         {
-            var book = dbContext.Books.FirstOrDefault(u => u.Id == Id);
+            var book = dbContext.Books.Include(u => u.Author).Include(u => u.Genre).FirstOrDefault(u => u.Id == Id);
             if (book == null) { return NotFound(); }
             return (BookUi)book;
         }
@@ -50,8 +51,8 @@ namespace AndreyApi.Controllers
                 && book.AuthorId == 0 && book.GenreId == 0) { return BadRequest("Пустое имя"); }
             if (!dbContext.Books.Any(u => u.Id == Id)) { return BadRequest("Попытка добавления, воспользуйтесь методом POST"); }
             var aut = dbContext.Books.FirstOrDefault(u => u.Id == Id);
-            aut.Title= book.Title;
-            aut.Description= book.Description;
+            aut.Title = book.Title;
+            aut.Description = book.Description;
             aut.AuthorId = book.AuthorId;
             aut.GenreId = book.GenreId;
             dbContext.Books.Update(aut);
