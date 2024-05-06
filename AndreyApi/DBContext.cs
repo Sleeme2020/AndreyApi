@@ -8,6 +8,7 @@ namespace AndreyApi
         public DbSet<Autor> Autors { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<Genre> Genres { get; set; }
+        public DbSet<Image> Images { get; set; }
         public AppDBContext(DbContextOptions<AppDBContext> options)
             : base(options)
         {
@@ -29,6 +30,9 @@ namespace AndreyApi
 
             modelBuilder.Entity<Genre>().HasKey(u => u.Id);
             modelBuilder.Entity<Genre>().Property(u => u.Id).ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Image>().HasKey(u => u.Id);
+            modelBuilder.Entity<Image>().Property(u => u.Id).ValueGeneratedOnAdd();
 
         }
     }

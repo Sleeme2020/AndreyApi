@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace AndreyApi.Models
 {
@@ -9,18 +10,20 @@ namespace AndreyApi.Models
         public string Description { get; set; }
         public int AuthorId { get; set; }
         public int GenreId { get; set; }
+        public int ImageId { get; set; }
+        public ImageUi ImageUi { get; set; }
         public AutorUi AutorUi { get; set; }
         public GenreUi GenreUi { get; set; }
         public static implicit operator Book(BookUi? bookUi)
         {
             if (bookUi == null) return null;
-            return new Book() { Id = bookUi.Id, Title = bookUi.Title, GenreId = bookUi.GenreId, AuthorId = bookUi.AuthorId, Description = bookUi.Description };
+            return new Book() { Id = bookUi.Id, Title = bookUi.Title, GenreId = bookUi.GenreId, AuthorId = bookUi.AuthorId, ImageId = bookUi.ImageId, Description = bookUi.Description, Author = bookUi.AutorUi, Genre = bookUi.GenreUi, Image = bookUi.ImageUi };
         }
 
         public static implicit operator BookUi(Book? bookUi)
         {
             if (bookUi == null) return null;
-            return new BookUi() { Id = bookUi.Id, Title = bookUi.Title, GenreId = bookUi.GenreId, AuthorId = bookUi.AuthorId, Description = bookUi.Description, AutorUi = bookUi.Author, GenreUi = bookUi.Genre };
+            return new BookUi() { Id = bookUi.Id, Title = bookUi.Title, GenreId = bookUi.GenreId, AuthorId = bookUi.AuthorId, ImageId = bookUi.ImageId, Description = bookUi.Description, AutorUi = bookUi.Author, GenreUi = bookUi.Genre, ImageUi = bookUi.Image };
         }
     }
 
@@ -59,5 +62,25 @@ namespace AndreyApi.Models
             if (genre == null) return null;
             return new GenreUi() { Id = genre.Id, Name = genre.Name };
         }
+    }
+
+    public class ImageUi
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = "";
+        public string Type { get; set; } = "";
+
+        public static implicit operator Image(ImageUi? imageUi)
+        {
+            if (imageUi == null) return null;
+            return new Image() { Id = imageUi.Id, Name = imageUi.Name, Type = imageUi.Type };
+        }
+
+        public static implicit operator ImageUi(Image? image)
+        {
+            if (image == null) return null;
+            return new ImageUi() { Id = image.Id, Name = image.Name, Type = image.Type };
+        }
+
     }
 }
