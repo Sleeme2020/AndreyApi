@@ -18,7 +18,7 @@ namespace AndreyApi.Controllers
         [HttpGet()]
         public ActionResult<object> Get()
         {
-            return new { Data = dbContext.Books.Include(u => u.Author).Include(u => u.Genre).Select(s => (BookUi)s).ToList() };
+            return new { Data = dbContext.Books.Include(u => u.Author).Include(u => u.Genre).Include(u => u.Image).Select(s => (BookUi)s).ToList() };
         }
 
         [HttpGet("{Id:int}")]
@@ -34,7 +34,7 @@ namespace AndreyApi.Controllers
         {
             if (book is null) { return BadRequest("Пустой автор"); }
             if (book.Title == string.Empty && book.Description == string.Empty
-                && book.AuthorId == 0 && book.GenreId == 0) { return BadRequest("Пустое имя"); }
+                && book.AuthorId == 0 && book.GenreId == 0 && book.ImageId == 0) { return BadRequest("Пустое имя"); }
             if (book.Id != 0) { return BadRequest("Попытка обновления, воспользуйтесь методом PUT"); }
             Book b = book;
             dbContext.Books.Add(b);

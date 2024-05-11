@@ -17,13 +17,13 @@ namespace AndreyApi.Models
         public static implicit operator Book(BookUi? bookUi)
         {
             if (bookUi == null) return null;
-            return new Book() { Id = bookUi.Id, Title = bookUi.Title, GenreId = bookUi.GenreId, AuthorId = bookUi.AuthorId, ImageId = bookUi.ImageId, Description = bookUi.Description, Author = bookUi.AutorUi, Genre = bookUi.GenreUi, Image = bookUi.ImageUi };
+            return new Book() { Id = bookUi.Id, Title = bookUi.Title, GenreId = bookUi.GenreId, AuthorId = bookUi.AuthorId, ImageId = bookUi.ImageId, Description = bookUi.Description};
         }
 
         public static implicit operator BookUi(Book? bookUi)
         {
             if (bookUi == null) return null;
-            return new BookUi() { Id = bookUi.Id, Title = bookUi.Title, GenreId = bookUi.GenreId, AuthorId = bookUi.AuthorId, ImageId = bookUi.ImageId, Description = bookUi.Description, AutorUi = bookUi.Author, GenreUi = bookUi.Genre, ImageUi = bookUi.Image };
+            return new BookUi() { Id = bookUi.Id, Title = bookUi.Title, GenreId = bookUi.GenreId, AuthorId = bookUi.AuthorId, ImageId = bookUi.ImageId, Description = bookUi.Description, AutorUi = bookUi.Author, ImageUi = bookUi.Image, GenreUi = bookUi.Genre };
         }
     }
 
@@ -67,13 +67,13 @@ namespace AndreyApi.Models
     public class ImageUi
     {
         public int Id { get; set; }
-        public string Name { get; set; } = "";
-        public string Type { get; set; } = "";
+        public string Name { get; set; }
+        public string Type { get; set; }
 
         public static implicit operator Image(ImageUi? imageUi)
         {
             if (imageUi == null) return null;
-            return new Image() { Id = imageUi.Id, Name = imageUi.Name, Type = imageUi.Type };
+            return new Image() { Id = imageUi.Id, Name = imageUi.Name, Type = imageUi.Type, Path = "" };
         }
 
         public static implicit operator ImageUi(Image? image)
