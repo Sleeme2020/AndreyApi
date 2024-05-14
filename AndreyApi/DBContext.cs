@@ -5,7 +5,7 @@ namespace AndreyApi
 {
     public class AppDBContext : DbContext
     {
-        public DbSet<Autor> Autors { get; set; }
+        public DbSet<Author> Authors { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Image> Images { get; set; }
@@ -19,14 +19,12 @@ namespace AndreyApi
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Autor>().HasKey(autor => autor.Id);
-            modelBuilder.Entity<Autor>().Property(u=>u.Id).ValueGeneratedOnAdd();  
-
+            modelBuilder.Entity<Author>().HasKey(autor => autor.Id);
+            modelBuilder.Entity<Author>().Property(u=>u.Id).ValueGeneratedOnAdd();  
 
             modelBuilder.Entity<Book>().HasKey(u=>u.Id);
             modelBuilder.Entity<Book>().Property(u => u.Id).ValueGeneratedOnAdd();
-            modelBuilder.Entity<Book>().HasOne(u=>u.Author).WithMany(u=>u.Books).HasForeignKey(u=>u.AuthorId);
-            modelBuilder.Entity<Book>().HasOne(u => u.Genre).WithMany(u => u.Books).HasForeignKey(u => u.GenreId);
+            modelBuilder.Entity<Book>().HasOne(u => u.Image).WithMany(u => u.Books).HasForeignKey(u => u.ImageId);
 
             modelBuilder.Entity<Genre>().HasKey(u => u.Id);
             modelBuilder.Entity<Genre>().Property(u => u.Id).ValueGeneratedOnAdd();

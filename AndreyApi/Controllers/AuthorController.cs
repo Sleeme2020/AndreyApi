@@ -6,10 +6,10 @@ namespace AndreyApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class AutorController : ControllerBase
+    public class AuthorController : ControllerBase
     {
         AppDBContext dbContext;
-        public AutorController(AppDBContext appcontext)
+        public AuthorController(AppDBContext appcontext)
         {
             dbContext = appcontext;
         }
@@ -17,50 +17,50 @@ namespace AndreyApi.Controllers
         [HttpGet()]
         public ActionResult<object> Get()
         {
-            return  new { Data= dbContext.Autors.Select(u => (AutorUi)u).ToList() };
+            return  new { Data= dbContext.Authors.Select(u => (AuthorUi)u).ToList() };
         }
 
         [HttpGet("{Id:int}")]
-        public ActionResult<AutorUi> Get(int Id)
+        public ActionResult<AuthorUi> Get(int Id)
         {
-            var autor = dbContext.Autors.FirstOrDefault(u => u.Id == Id);
+            var autor = dbContext.Authors.FirstOrDefault(u => u.Id == Id);
             if (autor == null) { return NotFound(); }
-            return (AutorUi)autor;
+            return (AuthorUi)autor;
         }
 
         [HttpPost]
-        public ActionResult<AutorUi> Post([FromBody] AutorUi autor)
+        public ActionResult<AuthorUi> Post([FromBody] AuthorUi autor)
         {
             if(autor is null) { return BadRequest("Пустой автор"); }
             if(autor.Name == string.Empty) { return BadRequest("Пустое имя"); }
             if(autor.Id !=0 ) { return BadRequest("Попытка обновления, воспользуйтесь методом PUT"); }
-            Autor aut = autor;
-            dbContext.Autors.Add(aut);
+            Author aut = autor;
+            dbContext.Authors.Add(aut);
             dbContext.SaveChanges();
 
-            return (AutorUi)aut;
+            return (AuthorUi)aut;
         }
 
         [HttpPut("{Id:int}")]
-        public ActionResult<AutorUi> Put(int Id,[FromBody] AutorUi autor)
+        public ActionResult<AuthorUi> Put(int Id,[FromBody] AuthorUi autor)
         {
             if (autor is null) { return BadRequest("Пустой автор"); }
             if (autor.Name == string.Empty) { return BadRequest("Пустое имя"); }
-            if (!dbContext.Autors.Any(u=>u.Id == Id)) { return BadRequest("Попытка добавления, воспользуйтесь методом POST"); }
-            var aut = dbContext.Autors.FirstOrDefault(u => u.Id==Id);
+            if (!dbContext.Authors.Any(u=>u.Id == Id)) { return BadRequest("Попытка добавления, воспользуйтесь методом POST"); }
+            var aut = dbContext.Authors.FirstOrDefault(u => u.Id==Id);
             aut.Name = autor.Name;
-            dbContext.Autors.Update(aut);
+            dbContext.Authors.Update(aut);
             dbContext.SaveChanges();
 
-            return (AutorUi)aut;
+            return (AuthorUi)aut;
         }
 
         [HttpDelete("{Id:int}")]
         public ActionResult Del(int Id)
         {
-            if (!dbContext.Autors.Any(u=>u.Id == Id)) { return BadRequest("NotFound"); }
+            if (!dbContext.Authors.Any(u=>u.Id == Id)) { return BadRequest("Не верный ID"); }
 
-            dbContext.Autors.Remove(dbContext.Autors.First(u => u.Id == Id));
+            dbContext.Authors.Remove(dbContext.Authors.First(u => u.Id == Id));
 
             dbContext.SaveChanges();
             return Ok();

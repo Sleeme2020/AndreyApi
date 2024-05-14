@@ -39,8 +39,6 @@ namespace AndreyApi.Controllers
         }
 
         [HttpPost]
-        //public async Task<IActionResult> Post(ImageUi image)
-        //public async Task<IActionResult> Post(IFormFile file)
         public ActionResult<ImageUi> Post(IFormFile file)
         {
             if (file is null) { return BadRequest("Картинка не выбрана"); }
@@ -106,7 +104,7 @@ namespace AndreyApi.Controllers
         [HttpDelete("{Id:int}")]
         public ActionResult Del(int Id)
         {
-            if (!dbContext.Images.Any(u => u.Id == Id)) { return BadRequest("NotFound"); }
+            if (!dbContext.Images.Any(u => u.Id == Id)) { return BadRequest("Не верный ID"); }
 
             FileInfo fileInf = new(dbContext.Images.First(u => u.Id == Id).Path);
 

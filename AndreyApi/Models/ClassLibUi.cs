@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Collections.Generic;
+using System.Numerics;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace AndreyApi.Models
@@ -8,39 +9,42 @@ namespace AndreyApi.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public int AuthorId { get; set; }
-        public int GenreId { get; set; }
         public int ImageId { get; set; }
         public ImageUi ImageUi { get; set; }
-        public AutorUi AutorUi { get; set; }
-        public GenreUi GenreUi { get; set; }
+        public List<int> AuthorsID { get; set; } = new();
+        public List<AuthorUi> AuthorsUi { get; set; } = new();
+        public List<int> GenresID { get; set; } = new();
+        public List<GenreUi> GenresUi { get; set; } = new();
+
         public static implicit operator Book(BookUi? bookUi)
         {
             if (bookUi == null) return null;
-            return new Book() { Id = bookUi.Id, Title = bookUi.Title, GenreId = bookUi.GenreId, AuthorId = bookUi.AuthorId, ImageId = bookUi.ImageId, Description = bookUi.Description};
+            return new Book() { Id = bookUi.Id, Title = bookUi.Title, Description = bookUi.Description, ImageId = bookUi.ImageId};
         }
 
-        public static implicit operator BookUi(Book? bookUi)
+        public static implicit operator BookUi(Book? book)
         {
-            if (bookUi == null) return null;
-            return new BookUi() { Id = bookUi.Id, Title = bookUi.Title, GenreId = bookUi.GenreId, AuthorId = bookUi.AuthorId, ImageId = bookUi.ImageId, Description = bookUi.Description, AutorUi = bookUi.Author, ImageUi = bookUi.Image, GenreUi = bookUi.Genre };
+            if (book == null) return null;
+            return new BookUi() { Id = book.Id, Title = book.Title, Description = book.Description, ImageId = book.ImageId,
+                                    ImageUi = book.Image, AuthorsUi = [.. book.Authors],  GenresUi = [.. book.Genres] };
         }
     }
 
-    public class AutorUi
+    public class AuthorUi
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public static implicit operator Autor(AutorUi? autorUi)
+
+        public static implicit operator Author(AuthorUi? authorUi)
         {
-            if (autorUi == null) return null;
-            return new Autor() { Id = autorUi.Id, Name = autorUi.Name };
+            if (authorUi == null) return null;
+            return new Author() { Id = authorUi.Id, Name = authorUi.Name };
         }
 
-        public static implicit operator AutorUi(Autor? genre)
+        public static implicit operator AuthorUi(Author? author)
         {
-            if (genre == null) return null;
-            return new AutorUi() { Id = genre.Id, Name = genre.Name };
+            if (author == null) return null;
+            return new AuthorUi() { Id = author.Id, Name = author.Name };
         }
 
     }

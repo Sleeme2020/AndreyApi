@@ -58,7 +58,7 @@ namespace AndreyApi.Controllers
         [HttpDelete("{Id:int}")]
         public ActionResult Del(int Id)
         {
-            if (!dbContext.Genres.Any(u => u.Id == Id)) { return BadRequest("NotFound"); }
+            if (!dbContext.Genres.Any(u => u.Id == Id)) { return BadRequest("Не верный ID"); }
 
             dbContext.Genres.Remove(dbContext.Genres.First(u => u.Id == Id));
 
